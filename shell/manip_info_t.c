@@ -3,6 +3,8 @@
 /**
  * clear_info - initializes info_t struct by setting all its fields to NULL
  * @info: struct address
+ * it sets the `arg`, `argv`, `path`, and
+ * `argc` fields to NULL or 0 as appropriate.
  */
 void clear_info(info_t *info)
 {
@@ -22,7 +24,13 @@ void clear_info(info_t *info)
  * set_info - initializes info_t struct with given argument vector and sets argv and argc fields
  * @info: struct address
  * @av: argument vector
- */
+ * * This function initializes the fields of the info_t struct pointed to by
+ * `info` based on the provided `av` argument vector.
+ * sets 'fname' to the first element of 'av',
+ * if the `arg` field of `info`
+ * is not empty, it parses the argument string into an array of strings and
+ * sets the `argv` field to this array.
+*/
 void set_info(info_t *info, char **av)
 {
     int arg_count = 0;
@@ -59,7 +67,7 @@ void set_info(info_t *info, char **av)
  * free_info - frees all or some of the fields of info_t struct
  * @info: struct address
  * @all: true if freeing all fields, false otherwise
- */
+*/
 void free_info(info_t *info, int all)
 {
     if (!info) {
