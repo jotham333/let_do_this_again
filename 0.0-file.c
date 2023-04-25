@@ -2,7 +2,7 @@
 
 
 /**
- * interactive - checks if shell is in interactive mode
+ * interact - checks if shell is in interactive mode
  *
  * @info: structure address
  *
@@ -10,7 +10,7 @@
  */
 
 
-int interactive(info_t *info)
+int interact(info_t *info)
 {
 	return(isatty(STDIN_FILENO) && info -> readfd <= 2);
 }
@@ -18,7 +18,7 @@ int interactive(info_t *info)
 
 
 /**
- * _isdelim - checks if character is a delimeter
+ * contains - checks if character is a delimeter
  *
  * @c: the character to check
  *
@@ -28,7 +28,7 @@ int interactive(info_t *info)
  */
 
 
-int _isdelim(char c,char delim[])
+int contains(char c,char delim[])
 {
 	int i;
 

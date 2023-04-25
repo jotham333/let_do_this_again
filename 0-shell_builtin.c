@@ -2,7 +2,7 @@
 
 
 /**
- * my_exit - this function exit the shell
+ * exit_shell - this function exit the shell
  *
  * @info: structure containing potential arguement used to
  *	maintain functions prototype
@@ -13,7 +13,7 @@
 
 
 
-int my_exit(info_t *info)
+int exit_shell(info_t *info)
 {
 	int check_exit;
 	char *error_msg;
@@ -43,7 +43,7 @@ int my_exit(info_t *info)
 
 
 /**
- * my_cd - the function changes between directories
+ * change_direct - the function changes between directories
  *
  * @path: the path specified by the user to chnage to
  *
@@ -52,7 +52,7 @@ int my_exit(info_t *info)
 
 
 
-int my_cd(char *path)
+int change_direct(char *path)
 {
 	char *home_dir, *prev_dir, cwd[1024];
 	int chdir_ret;
@@ -97,7 +97,7 @@ int my_cd(char *path)
 
 
 /**
- * my_help - this function changes the current directory of the process
+ * display_help - this function changes the current directory of the process
  *
  * @info: Structure containing potential arguements
  * Used to maintain constant function proto
@@ -105,7 +105,7 @@ int my_cd(char *path)
  * Return: Always return 0
  */
 
-int my_help(info_t *info)
+int display_help(info_t *info)
 {
 	char **arg_arr;
 

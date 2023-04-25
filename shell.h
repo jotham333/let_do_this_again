@@ -85,8 +85,8 @@ int my_alias(info_t *info);
 
 /* atoi */
 
-int interactive(info_t *info);
-int _isdelim(char c, char delim[]);
+int interact(info_t *info);
+int contains(char c, char delim[]);
 int _isalpha(int ch);
 int _atoi(char *str);
 
