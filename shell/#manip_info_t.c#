@@ -56,8 +56,8 @@ for (int i = 0; arg_arr != NULL && arg_arr[i]; i++) /* count elements */
 arg_count++;
 info->argc = arg_count; /* set argc field to number of arguments */
 
-replace_alias(info); /* replace any alias in arg array with command strings */
-replace_vars(info); /* replace variable reference in arg array with values */
+replace_alias(info); /* replace any aliases in argum array with command strings */
+replace_vars(info); /* replace any variable references in argument array with values */
 }
 info->argv = arg_arr; /* set argv field to argument array */
 }
@@ -80,7 +80,7 @@ if (all)
 char *empty_str = NULL;
 free(info->cmd_buf); /* free memory for command buffer */
 if (info->cmd_buf == NULL)
-free(info->arg); /* free alloc for arg string if command buffer is also NULL */
+free(info->arg); /* free memory allocated for arg string if command buffer is also NULL */
 if (info->env)
 free_list(&(info->env)); /* free memory allocated for env var linked list */
 if (info->history)

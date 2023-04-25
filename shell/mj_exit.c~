@@ -80,7 +80,7 @@ return (destination);
 * It returns a pointer to the memory area of @str where @target is found,
 * or NULL if @target is not found in @str.
 *
-* Return:pointer to memory area of @str where @target is found, or NULL if not.
+* Return: A pointer to memory area of @str where @target is found, or NULL if not.
 */
 char *_strchr(char *str, char target)
 {
