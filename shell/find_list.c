@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
-* get_list_size - determines the size of a linked list
+* list_len - determines the size of a linked list
 * @head: pointer to the first node of the list
 *
 * Return: the size of the list
 */
-size_t get_list_size(const list_t *head)
+size_t list_len(const list_t *head)
 {
 size_t count = 0;
 
@@ -31,7 +31,7 @@ return (count);
 char **list_to_strings(list_t *head)
 {
 list_t *current_node = head;
-size_t list_size = get_list_size(head), i;
+size_t list_size = get_list_size(head), i = 0;
 char **strings_array;
 char *current_string;
 
@@ -45,13 +45,12 @@ if (!strings_array)  /* if memory allocation fails */
 return (NULL);
 
 /* iterate through the list, copying each node's string */
-for (i = 0; current_node; i++, current_node = current_node->next)
+while (current_node)
 {
 current_string = malloc(_strlen(current_node->str) + 1);
 /* allocate memory for the new string */
 
 if (!current_string)  /* if memory allocation fails */
-
 {
 /* free all previously allocated memory and return NULL */
 for (size_t j = 0; j < i; j++)
@@ -60,13 +59,19 @@ free(strings_array[j]);
 free(strings_array);
 return (NULL);
 }
+        
 /* copy the node's string into the new string */
 current_string = _strcpy(current_string, current_node->str);
 strings_array[i] = current_string;  /* add the new string to the array */
+
+current_node = current_node->next;
+i++;
 }
+
 strings_array[i] = NULL;  /* set the last element of the array to NULL */
 return (strings_array);
 }
+
 
 /**
 * print_list - prints all elements of a list_t linked list
@@ -97,7 +102,7 @@ return (count);
 }
 
 /**
-* find_node_starts_with_prefix - finds the first node in
+* node_starts_with - finds the first node in
 * linked list that starts with a given prefix
 * @node: a pointer to the head node of the linked list to search
 * @prefix: a pointer to a string representing the prefix to search for
@@ -105,7 +110,7 @@ return (count);
 *
 * Return: NULL
 */
-list_t *find_node_start_with_prefix(list_t *node, char *prefix, char next_char)
+list_t *node_starts_with(list_t *node, char *prefix, char next_char)
 {
 char *result;
 
