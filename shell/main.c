@@ -29,7 +29,7 @@ if (errno == EACCES)
 exit(126);
 if (errno == ENOENT)/* Check if error is due to file not found */
 {
-/* Print error message and exit with status 127 */
+/* Print error message & exit with status 127 */
 _eputs(av[0]);
 _eputs(": 0: Can't open ");
 _eputs(av[1]);
