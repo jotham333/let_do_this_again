@@ -15,7 +15,7 @@
 
 int _history(info_t *info)
 {
-	_printlist(info->history);
+	print_list_str(info->history);
 	return (0);
 }
 
@@ -46,7 +46,7 @@ int unset_alias(info_t *info, char *s)
 	c = *equal_sign_pos;
 	*equal_sign_pos = 0;
 	nreturn = delete_node_at_index(&(info->alias), get_node_index(info->alias
-				node_starts, with(info->alias, s, -1)));
+				node_starts_with(info->alias, s, -1)));
 
 	*equal_sign_pos = c;
 
@@ -178,35 +178,3 @@ int my_alias(info_t *info)
 
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

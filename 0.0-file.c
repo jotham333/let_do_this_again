@@ -28,7 +28,7 @@ int interact(info_t *info)
  */
 
 
-int contains(char c,char delim[])
+int contains(char c, char delim[])
 {
 	int i;
 
@@ -108,73 +108,3 @@ int _atoi(char *str)
 
 	return(output);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
