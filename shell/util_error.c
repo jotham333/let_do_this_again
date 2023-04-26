@@ -20,7 +20,6 @@ if (*s == '+')
 {
 s++;
 }
-
 /* Iterate through the string, adding each digit to the result. */
 for (int i = 0; s[i] != '\0'; i++)
 {
