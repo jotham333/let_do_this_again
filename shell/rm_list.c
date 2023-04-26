@@ -119,53 +119,50 @@ size++;
 }
 return (size);
 }
+
 /**
-* delete_node_at_index - deletes node at given index
-* @head: address of pointer to first node
-* @index: index of node to delete
-* It takes a double pointer to the head of the list (head)
-* and an index (index) and returns 1 on success or 0 on failure.
-* Return: 1 on success, 0 on failure
+* delete_node_at_index- delete node at agiven index
+* @head: address of pointerto first node
+* @temp: temp for node while transversing
+* @index: cue index for node to delete
+* If the index is 0, the first node is deleted, and the head 
+* pointer is updated to point to the second node in the list. 
+* Then, the memory allocated to the deleted node is freed, 
+* Return: 1 (success).
 */
 int delete_node_at_index(list_t **head, unsigned int index)
 {
-if (!head || !*head)
-return (0);
-
+if (head == NULL || *head == NULL)
+return 0;
 if (index == 0)
 {
-list_t *current_node = *head;
+list_t *temp = *head;
 *head = (*head)->next;
-free(current_node->str);
-free(current_node);
-return (1);
+free(temp->str);
+free(temp);
+return 1;
 }
 else
 {
-list_t *previous_node = *head;
-list_t *current_node = (*head)->next;
 unsigned int i = 1;
-
-while (i < index && current_node)
+list_t *prev_node = *head;
+while (prev_node != NULL && i != index)
 {
-previous_node = current_node;
-current_node = current_node->next;
+prev_node = prev_node->next;
 i++;
 }
-
-if (i == index && current_node)
-{
-previous_node->next = current_node->next;
-free(current_node->str);
-free(current_node);
-return (1);
+if (prev_node == NULL || prev_node->next == NULL)
+return 0;
+list_t *next_node = prev_node->next->next;
+free(prev_node->next->str);
+free(prev_node->next);
+prev_node->next = next_node;
+return 1;
 }
 }
 
-return (0);
-}
 /**
-* free_list - frees all nodes of a list
+* free_list - frees all nodes of a linked list
 * @head_ptr: address of pointer to head node
 * It take a double pointer to head of the list (head_ptr) and returns void.
 * Return: void
