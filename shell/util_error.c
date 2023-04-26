@@ -3,43 +3,44 @@
 /**
 * _erratoi - converts a string to an integer
 * @s: the string to be converted
-*
-* This function converts a string to an integer. If the string does not
-* contain any numbers or the resulting integer is greater than the maximum
-* integer value (INT_MAX), it returns -1.
-*
 * Return: The converted integer, or -1 on error.
+*
+* Description: This function takes a string and converts it to an integer. If
+* the string does not contain any numbers, or if the resulting integer is
+* greater than the maximum integer value (INT_MAX), it returns -1.
 */
 int _erratoi(char *s)
 {
-int i = 0;
-long int result = 0;
+int i = 0; /* index variable for iterating through the string */
+unsigned long int result = 0; /* variable to store the converted integer */
 
-/* If the string starts with a plus sign, ignore it. */
+/* if  string start with a plus sign, move the pointer to the next character */
 if (*s == '+')
-{
 s++;
-}
-/* Iterate through the string, adding each digit to the result. */
-for (int i = 0; s[i] != '\0'; i++)
+
+/* loop through the string until the end is reached */
+while (s[i] != '\0')
 {
-/* If the character is not a digit, return an error. */
-if (s[i] < '0' || s[i] > '9')
-return (-1);
-
-/* If the result is greater than the maximum integer value, return an error. */
-if (result > (INT_MAX - (s[i] - '0')) / 10)
-return (-1);
-
-/* If the character is a digit, add it to the result. */
+/* check if the character is a digit */
+if (s[i] >= '0' && s[i] <= '9')
+{
+/* convert the character to an integer and add it to the result */
 result *= 10;
 result += (s[i] - '0');
+
+/* check if the result exceeds the maximum value for an int */
+if (result > INT_MAX)
+return (-1);
+
+/* move to the next character in the string */
+i++;
+}
+else
+return (-1); /* if the character is not a digit, return an error */
 }
 
-/* Return the converted integer. */
-return (result);
+return (result); /* return the converted integer */
 }
-
 /**
 * print_error - prints an error message
 * @info: pointer to the info struct containing relevant information
@@ -79,43 +80,45 @@ _eputs(estr);            /* print error type */
 */
 int print_d(int input, int fd)
 {
-int count = 0;
-/* Set up a func pointer to approp putchar func (_putchar or _eputchar). */
 int (*__putchar)(char) = _putchar;
-
-/* Initialize variables for absolute value of input and current digit. */
+int i = 1000000000;
+int count = 0;
+/* Declare variables for absolute value and current digit */
 unsigned int _abs_, current;
 
-/* If file descriptor is STDERR_FILENO, use _eputchar function instead. */
 if (fd == STDERR_FILENO)
 __putchar = _eputchar;
 
-/* If the input is negative, print a minus sign and take the absolute value. */
 if (input < 0)
 {
-_abs_ = -input;
+_abs_ = -input; /* Take the absolute value of input */
 __putchar('-');
-}
-else
-_abs_ = input;
-
-/* Print each digit of the number. */
-current = _abs_;
-for (int i = 1000000000; i > 1; i /= 10)
-{
-/* If the current digit is nonzero, print it. */
-if (_abs_ / i)
-{
-__putchar('0' + _abs_  / i);
 count++;
 }
-current %= i;
+else
+{
+_abs_ = input;
 }
+
+current = _abs_;
+
+while (i > 1)
+{
+if (_abs_ / i)
+{
+__putchar('0' + current / i);
+count++;
+}
+current %= i; /* Update the current digit */
+i /= 10; /* Move to the next digit */
+}
+
 __putchar('0' + current);
 count++;
 
 return (count);
 }
+
 /**
 * convert_number - conv number to a string representation in specified base
 * @num: the number to convert
@@ -127,37 +130,37 @@ return (count);
 */
 char *convert_number(long int num, int base, int flags)
 {
-static char *array;  /* array of characters to use for the specified base */
-static char buffer[50];  /* buffer to store the converted number as a string */
-char sign = 0;  /* variable to hold the sign of the number */
-char *ptr;  /* pointer to the current position in the buffer */
-unsigned long n = num;  /* copy of the number to convert, cast as unsigned */
+static char *array;  /* Array of characters to use for the specified base */
+static char buffer[50];  /* Buffer to store the converted number as a string */
+char sign = 0;  /* Variable to hold the sign of the number */
+char *ptr;  /* Pointer to the current position in the buffer */
+unsigned long n = num;  /* Copy of the number to convert, cast as unsigned */
 
-/* check if the number is negative and set the sign variable accordingly */
+/* Check if the number is negative and set the sign variable accordingly */
 if (!(flags & CONVERT_UNSIGNED) && num < 0)
 {
-n = -num;
-sign = '-';
+n = -num;  /* Convert the number to a positive unsigned value */
+sign = '-';  /* Set the sign character to '-' */
 }
 
-/* set the array variable based on the specified flags */
+/* Set the array variable based on the specified flags */
 array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
 
-/* set the pointer to the end of the buffer */
-ptr = &buffer[49];
-*ptr = '\0';
+ptr = &buffer[49];  /* Set the pointer to the end of the buffer */
+*ptr = '\0';  /* Set the end of the buffer to '\0' */
 
-/* repeatedly divide the number by base and store the rem in the buffer */
-do {
-*--ptr = array[n % base];
-n /= base;
-} while (n != 0);
+/* Convert numb to spec base by repeatedly dividing numb by base */
+/* and storing the remainder in the buffer */
+for (; n != 0; n /= base)
+{
+*--ptr = array[n % base]; /* Store rem in buffer and move the pointr back */
+}
 
-/* if the number was negative, add the sign to the beginning of the buffer */
+/* If the number was negative, add the sign to the beginning of the buffer */
 if (sign)
 *--ptr = sign;
 
-/* return a pointer to the beginning of the converted number in the buffer */
+/* Return a pointer to the beginning of the converted number in the buffer */
 return (ptr);
 }
 
