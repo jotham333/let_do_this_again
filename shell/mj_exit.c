@@ -18,7 +18,8 @@
 char *_strncpy(char *destination, char *source, int num_chars)
 {
 int i;
-
+char *destination;
+ 
 /* Copy up to num_chars characters or until null character is encountered */
 for (i = 0; source[i] != '\0' && i < num_chars; i++)
 {
@@ -50,7 +51,7 @@ return (destination);
 */
 char *_strncat(char *destination, char *source, int num_chars)
 {
-int destination_length = 0, i;
+int destination_length, i;
 
 /* Get the length of the destination string */
 while (destination[destination_length] != '\0')

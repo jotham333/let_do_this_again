@@ -12,46 +12,46 @@
 */
 list_t *add_node(list_t **head, const char *str, int num)
 {
-list_t *new_head_node = NULL;
+list_t *new_head;
 
 if (head == NULL)
 {
 return (NULL);
 }
-new_head_node = malloc(sizeof(list_t));
-if (new_head_node == NULL)
+new_head = malloc(sizeof(list_t));
+if (new_head == NULL)
 {
 return (NULL);
 }
-_memset((void *)new_head_node, 0, sizeof(list_t));
-new_head_node->num = num;
+_memset((void *)new_head, 0, sizeof(list_t));
+new_head->num = num;
 
 if (str != NULL)
 {
-new_head_node->str = _strdup(str);
-if (new_head_node->str == NULL)
+new_head->str = _strdup(str);
+if (new_head->str == NULL)
 {
-free(new_head_node);
+free(new_head);
 return (NULL);
 }
 }
 else
 {
-new_head_node->str = NULL;
+new_head->str = NULL;
 }
 
 if (*head != NULL)
 {
-new_head_node->next = *head;
-*head = new_head_node;
+new_head->next = *head;
+*head = new_head;
 }
 else
 {
-new_head_node->next = NULL;
-*head = new_head_node;
+new_head->next = NULL;
+*head = new_head;
 }
 
-return (new_head_node);
+return (new_head);
 }
 /**
 * add_node_end - adds a node to the end of the list
