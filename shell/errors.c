@@ -32,7 +32,7 @@ _eputchar(str[count]);  /* Print current char to std error using _eputchar */
 */
 int _eputchar(char c)
 {
-static int count ;
+static int count;
 /*Declare a static character buffer of size WRITE_BUF_SIZE */
 static char buffer[WRITE_BUF_SIZE];
 /* If the input character is not BUF_FLUSH, add it to the buffer */
@@ -113,7 +113,7 @@ return (0);
 
 /* Loop through each character of the input string */
 do {
-/* Call _putfd to write current char to the given file descriptor and incr the counter */
+/* Call _putfd to write current char to given file descr and incr counter */
 count += _putfd(*str++, fd);
 } while (*str);
 

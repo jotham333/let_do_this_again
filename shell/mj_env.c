@@ -23,7 +23,7 @@ return (1);
 list_t *current_node = info->env_vars;
 while (current_node != NULL)
 {
-print_string(current_node->str);
+printf("%s\n", current_node->str);
 current_node = current_node->next;
 }
 
