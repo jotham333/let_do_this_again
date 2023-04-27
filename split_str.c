@@ -24,7 +24,7 @@ char **split_string(char *str, char *delim)
 	if (delim == NULL)
 		delim = " ";
 	for (i = 0; str[i] != '\0'; i++)
-		if (!is_delim(str[i], delim) && (is_delim(str[i + 1], delim) || !str[i + 1]))
+		if (!contains(str[i], delim) && (contains(str[i + 1], delim) || !str[i + 1]))
 			numwords++;
 
 	if (numwords == 0)
@@ -34,10 +34,10 @@ char **split_string(char *str, char *delim)
 		return ( NULL);
 	for (i = 0, j = 0; j < numwords; j++)
 	{
-		while (is_delim(str[i], delim))
+		while (contains(str[i], delim))
 			i++;
 		k = 0;
-		while (is_delim(str[i + k], delim) && str[i + k])
+		while (contains(str[i + k], delim) && str[i + k])
 			k++;
 		s[j] = malloc((k + 1) * sizeof(char));
 		if (s[j] == 0)
@@ -115,45 +115,3 @@ char **split_string2(char *str, char delim)
 	s[j] = NULL;
 	return (s);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

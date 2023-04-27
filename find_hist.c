@@ -63,7 +63,7 @@ _putfd('\n', fd);
 }
 
 /* Flush the buffer and close the file */
-if (_putfd(BUF_FLUSH, fd) == -1)
+if (_putfd(BUFF_FLUSH, fd) == -1)
 {
 close(fd);
 return (-1);

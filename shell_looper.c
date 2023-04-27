@@ -21,7 +21,7 @@ int hsh(info_t *info, char **args)
 	while (input_res != -1 && builtin_res != -2)
 	{
 		clear_info(info);
-		if (interactive(info))
+		if (interact(info))
 			_puts("$ ");
 		_eputchar(BUFF_FLUSH);
 		r = get_input(info);
@@ -32,14 +32,14 @@ int hsh(info_t *info, char **args)
 			if (builtin_res == -1)
 				find_cmd(info);
 		}
-		else if (ineractive(info))
+		else if (interact(info))
 			_putchar('\n');
 		free_info(info, 0);
 	}
 
 	write_history(info);
 	free_info(info, 1);
-	if (!interactive(info) && info->status)
+	if (!interact(info) && info->status)
 		exit(info->status);
 	if (builtin_res == -2)
 	{
@@ -118,13 +118,13 @@ void find_cmd(info_t *info)
 	}
 	for (i = 0, j = 0; info->arg[i]; i++)
 	{
-		if (!_isdelim(info->ard[i], "\t\n"))
+		if (contains(info->ard[i], "\t\n"))
 			j++;
 	}
 	if (!j)
 		return:
 
-	path = find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	path = search_path(info, _getenv(info, "PATH="), info->argv[0]);
 	if (path)
 	{
 		info->path = path;
@@ -132,7 +132,7 @@ void find_cmd(info_t *info)
 	}
 	else
 	{
-		if ((interactive(info) || _getenv(info, "PATH=")
+		if ((interact(info) || _getenv(info, "PATH=")
 					|| info->argv[0][0] == '/') && _iscmd(info, info->argv[0]))
 		{
 			fork_cmd(info):
@@ -188,39 +188,3 @@ void fork_cmd(info_t *info)
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

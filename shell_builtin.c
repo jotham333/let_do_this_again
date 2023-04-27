@@ -26,7 +26,7 @@ int exit_shell(info_t *info)
 		if (check_exit == -1)
 		{
 			info->status = 2;
-			write(STDERR_FILENO, error_msg, strlen(error_msg));
+			write(STDERR_FILENO, error_msg, _strlen(error_msg));
 			_eputs(info->argv[1]);
 			_eputchar('\n');
 			return (1);

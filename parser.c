@@ -100,7 +100,7 @@ char *search_path(info_t *info, char *pathstr, char *cmd)
 		return (NULL);
 	}
 
-	if ((_stelen(cmd) > 2) && starts_with(cmd, "./"))
+	if ((_strlen(cmd) > 2) && start_with(cmd, "./"))
 	{
 		if (_iscmd(info, cmd))
 			return (cmd);
@@ -129,26 +129,3 @@ char *search_path(info_t *info, char *pathstr, char *cmd)
 	}
 	return (NULL);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
