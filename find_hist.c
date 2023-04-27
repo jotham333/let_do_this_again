@@ -41,9 +41,10 @@ return (path);
 int write_history(info_t *info)
 {
 ssize_t fd;
-char *filename = get_history_file(info);
+char *filename;
 list_t *node_ptr = NULL;
 
+filename = get_hustory_file(info);
 /* Get the history file name and open it */
 if (filename == NULL)
 return (-1);

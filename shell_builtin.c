@@ -65,7 +65,7 @@ int change_direct(char *path)
 		return (1);
 	if (path == NULL)
 	{
-		home_dir = getenv("HOME");
+		home_dir = _getenv("HOME");
 		if (home_dir == NULL)
 		{
 			write(STDERR_FILENO, err_msg, sizeof(err_msg));
@@ -73,9 +73,9 @@ int change_direct(char *path)
 		}
 		chdir_ret = chdir(home_dir);
 	}
-	else if (strcmp(path, "-") == 0)
+	else if (_strcmp(path, "-") == 0)
 	{
-		prev_dir = _getenv("OLDPWD");
+		prev_dir = getenv("OLDPWD");
 		if (prev_dir == NULL)
 		{
 			write(STDERR_FILENO, err_msg_2, sizeof(err_msg_2));

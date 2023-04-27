@@ -191,7 +191,7 @@ int _free(void **ptr);
 size_t get_list_size(const list_t *head);
 char **list_to_strings(list_t *head);
 size_t print_list(const list_t *head);
-list_t *find_node_start_with_prefix(list_t *node, char *prefix, char next_char);
+list_t *node_starts_with(list_t *node, char *prefix, char next_char);
 ssize_t get_node_index(list_t *head, list_t *node);
 
 
