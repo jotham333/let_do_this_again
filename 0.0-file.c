@@ -12,7 +12,7 @@
 
 int interact(info_t *info)
 {
-	return(isatty(STDIN_FILENO) && info -> readfd <= 2);
+	return (isatty(STDIN_FILENO) && info->readfd <= 2);
 }
 
 
@@ -36,7 +36,7 @@ int contains(char c, char delim[])
 	{
 		if (delim[i] == c)
 		{
-			return(1);
+			return (1);
 		}
 	}
 	return (0);
@@ -55,14 +55,14 @@ int contains(char c, char delim[])
 
 int _isalpha(int ch)
 {
-	if ((ch >= 'a' && <= 'z') || (ch >= 'A' && <= 'Z'))
+	if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
 	{
-		return(1);
+		return (1);
 	}
 
 	else
 	{
-		return(0);
+		return (0);
 	}
 }
 
@@ -106,5 +106,5 @@ int _atoi(char *str)
 
 	output = result * sign;
 
-	return(output);
+	return (output);
 }

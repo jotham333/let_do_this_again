@@ -24,10 +24,10 @@ int hsh(info_t *info, char **args)
 		if (interact(info))
 			_puts("$ ");
 		_eputchar(BUFF_FLUSH);
-		r = get_input(info);
-		if (r != -1)
+		input_res = get_input(info);
+		if (input_res != -1)
 		{
-			set_info(info, av);
+			set_info(info, args);
 			builtin_res = find_builtin(info);
 			if (builtin_res == -1)
 				find_cmd(info);
@@ -69,28 +69,28 @@ int find_builtin(info_t *info)
 {
 	int i, builtin_in_ret = -1;
 	builtin_table builtintnbl[] = {
-		{"exit", _myexit},
-		{"env", _myenv},
-		{"help", _myhelp},
-		{"history", _myhistory},
-		{"setenv", _mysetenv},
-		{"unsetenv", _myunsetenv,}
-		{"cd", _mycd},
-		{"alias", _myalias},
+		{"exit", exit_shell},
+		{"env", my_env},
+		{"help", display_help},
+		{"history", _history},
+		{"setenv", my_setenv},
+		{"unsetenv", my_unsetenv},
+		{"cd", _cd},
+		{"alias", my_alias},
 		{NULL, NULL}
 	};
 
-	for (i = 0; builtinbl[i].type; i++)
+	for (i = 0; builtintnbl[i].type; i++)
 	{
-		if (_strcmp(info->argv[0], builtinbl[i].type) == 0)
+		if (_strcmp(info->argv[0], builtintnbl[i].type) == 0)
 		{
 			info->line_count++;
-			builtin_in_ret = builtinbl[i].func(info);
+			builtin_in_ret = builtintnbl[i].func(info);
 			break;
 		}
 	}
 
-	return (built_in_ret);
+	return (builtin_in_ret);
 }
 
 
@@ -114,15 +114,15 @@ void find_cmd(info_t *info)
 	if (info->linecount_flag == 1)
 	{
 		info->line_count++;
-		info->linecount_flag = =;
+		info->linecount_flag = 0;
 	}
 	for (i = 0, j = 0; info->arg[i]; i++)
 	{
-		if (contains(info->ard[i], "\t\n"))
+		if (contains(info->arg[i], "\t\n"))
 			j++;
 	}
 	if (!j)
-		return:
+		return;
 
 	path = search_path(info, _getenv(info, "PATH="), info->argv[0]);
 	if (path)
@@ -135,7 +135,7 @@ void find_cmd(info_t *info)
 		if ((interact(info) || _getenv(info, "PATH=")
 					|| info->argv[0][0] == '/') && _iscmd(info, info->argv[0]))
 		{
-			fork_cmd(info):
+			fork_cmd(info);
 		}
 		else if (*(info->arg) != '\n')
 		{
@@ -171,7 +171,7 @@ void fork_cmd(info_t *info)
 	{
 		if (execve(info->path, info->argv, get_environ(info)) == -1)
 		{
-			free_info(info, 1)
+			free_info(info, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
@@ -180,11 +180,12 @@ void fork_cmd(info_t *info)
 	else
 	{
 		wait(&(info->status));
-		if (WIFEXITED(info->status))
-		{
+
+			if (WIFEXITED(info->status))
+			{
 				info->status = WEXITSTATUS(info->status);
 				if (info->status == 126)
 					print_error(info, "permmission denied\n");
-		}
+			}
 	}
 }

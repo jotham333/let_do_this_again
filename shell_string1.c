@@ -18,7 +18,7 @@ char *_strcpy(char *dest, const char *src)
 	int i;
 
 	if (dest == src || src == NULL || dest == NULL)
-		return 	NULL;
+		return (NULL);
 
 	while (src[i] != '\0')
 	{
@@ -47,7 +47,7 @@ char *_strcpy(char *dest, const char *src)
 
 char *_strdup(const char *str)
 {
-	int lenght, i;
+	int length, i;
 	char *ret;
 
 	length = 0;

@@ -28,55 +28,34 @@
 #define USE_GETLINE 0
 #define USE_STRTOK 0
 
-#define HIST_;
-	int linecount_flag;
-	char *fname;
-	list_t *env;
-	list_t *history;
-	list_t *alias;
-	char **environ;
-	int env_changed;
-	int status;
-	char **cmd_buf; 
-	int cmd_buf_type; 
-	int histcount;
-} info_t;
-imple_shell_history"
-#define HIST_MAX 4096
+#define HISTORY_FILE		".shell_history"
+#define HISTORY_MAX	5000
 
 extern char **environ;
 
 
 /**
  *  * struct liststring - is a singly linked list
- *   * @num: the number field
- *    * @str: a string
- *     * @next: points to the next node
- *      */
+ *  * @num: the number field
+ *  * @str: a string
+ *  * @next: points to the next node
+ *  */
 typedef struct liststring
 {
 	int num;
 	char *str;
 	struct liststring *next;
-} list_t;
+}list_t;
 
 
-typedef struct builtin
+typedef struct info_s
 {
-	char *type;
-	int (*func)(info_t *)
-}builtin_table;
-
-
-
-typedef struct info_s {
-        int readfd;
 	char *arg;
 	char **argv;
 	char *path;
 	int argc;
 	unsigned int line_count;
-	int err_num
+	int err_num;
 	int linecount_flag;
 	char *fname;
 	list_t *env;
@@ -87,13 +66,36 @@ typedef struct info_s {
 	int status;
 	char **cmd_buf;
 	int cmd_buf_type;
+	int readfd;
 	int histcount;
-} info_t;
+}info_t;
 
-
+typedef struct builtin
+{
+	char *type;
+	int (*func)(info_t *);
+}builtin_table;
 
 #define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL,\ 0, 0, 0}
+{	NULL,	\
+	NULL,	\
+	NULL,	\
+	0,	\
+	0,	\
+	0,	\
+	0,	\
+	NULL,	\
+	NULL,	\
+	NULL,	\
+	NULL,	\
+	NULL,	\
+	0,	\
+	0,	\
+	NULL,	\
+	0,	\
+	0,	\
+	0,	\
+}
 
 
 /* atoi */
@@ -107,7 +109,7 @@ int _atoi(char *str);
 
 /*shell_builtin.c*/
 int exit_shell(info_t *info);
-int change_direct(char *path);
+int _cd(info_t *info);
 int display_help(info_t *info);
 
 
@@ -116,15 +118,15 @@ int _history(info_t *info);
 int unset_alias(info_t *info, char *s);
 int set_alias(info_t *info, char *str);
 int _print_alias(list_t *alias_node);
-int my_alias(info_t *info);vi
+int my_alias(info_t *info);
 
 
 /*mj_env.c*/
 int my_env(info_t *info);
-char *_getenv(shell_info_t *shell_info, const char *var_name);
-int my_setenv(shell_info_t *shell_info);
-int mu_unsetenv(shell_info_t *shell_info);
-int populate_env_list(shell_info_t *shell_info);
+char *_getenv(info_t *info, const char *var_name);
+int my_setenv(info_t *info);
+int my_unsetenv(info_t *info);
+int populate_env_list(info_t *info);
 
 
 /*error.c*/
@@ -142,7 +144,7 @@ char *convert_number(long int num, int base, int flags);
 void remove_comments(char *buf);
 
 /*string.c*/
-:wint _strlen(char *str);
+int _strlen(char *str);
 int _strcmp(char *str1, char *str2);
 char *start_with(const char *haystack, const char *needle);
 char *_strcat(char *dest, char *src);
@@ -182,7 +184,7 @@ list_t *add_node(list_t **head, const char *str, int num);
 list_t *add_node_end(list_t **head, const char *str, int num);
 size_t print_list_str(const list_t *head);
 int delete_node_at_index(list_t **head, unsigned int index);
-void free_list(list_t **heavoid print_error(info_t *info, char *estr);
+void free_list(list_t **);
 
 
 /*free_mem.c*/
@@ -193,7 +195,7 @@ int _free(void **ptr);
 size_t list_len(const list_t *head);
 char **list_to_strings(list_t *head);
 size_t print_list(const list_t *head);
-list_t *node_starts_with_prefix(list_t *node, char *prefix, char next_char);
+list_t *node_starts_with(list_t *node, char *prefix, char next_char);
 ssize_t get_node_index(list_t *head, list_t *node);
 
 
@@ -226,13 +228,13 @@ void free_info(info_t *info, int all);
 /*mj_getline.c*/
 ssize_t input_buf(info_t *info, char **buf, size_t *len);
 ssize_t get_input(info_t *info);
-ssize_t read_buf(info_t *info, char *buf, size_t *i);
-int _getline(info_t *info, char **ptr, size_t *length);
+ssize_t read_buf(info_t *info, char *buf, size_t *pos);
+int _getline(info_t *info, char **ptrs, size_t *length);
 void sigintHandler(__attribute__((unused))int sig_num);
 
 
 /* mj_getenv.c */
-char **_getenv(info_t *info);
+char **get_environ(info_t *info);
 int _unsetenv(info_t *info, char *var);
 int _setenv(info_t *info, char *var, char *value);
 
@@ -243,7 +245,7 @@ int main(int ac, char **av);
 /* variables */
 int replace_string(char **old, char *new);
 int detect_chain(info_t *info, char *buff, size_t *ptr);
-void check_pipeline(info_t *info, char *buff, size_t *ptr, size_t i, size_t len);
+void check_pipeline(info_t *info, char *buff, size_t *pt, size_t i, size_t len);
 int alias_replace(info_t *info);
 int replace_vars(info_t *info);
 

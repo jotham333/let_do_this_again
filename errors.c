@@ -9,10 +9,11 @@
 */
 void _eputs(char *str)
 {
+	int count;
 if (str)  /* Check if the input string is NULL */
 {
 /* Loop through each character of the input string */
-for (int count = 0; str[count] != '\0'; count++)
+for (count = 0; str[count] != '\0'; count++)
 {
 _eputchar(str[count]);  /* Print current char to std error using _eputchar */
 }
@@ -69,6 +70,7 @@ return (1);  /* Return the number of characters printed (always 1) */
 */
 int _putfd(char c, int fd)
 {
+int i;
 static int count;
 /* Initialize a static character buffer of size WRITE_BUF_SIZE */
 static char buffer[INPUT_BUFF_SIZE];
@@ -82,10 +84,10 @@ count++;
 /* If the buffer is full or the input character is BUF_FLUSH */
 if (count >= INPUT_BUFF_SIZE && c != BUFF_FLUSH)
 {
-for (int i = 0; i < count; i++)
+for (i = 0; i < count; i++)
 {
 /* Write the contents of the buffer to the given file descriptor using write */
-write(fd, &buffer(count), count);
+write(fd, &buffer, count);
 }
 count = 0;  /* Reset the counter variable to 0 */
 }

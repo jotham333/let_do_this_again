@@ -18,7 +18,6 @@
 char *_strncpy(char *destination, char *source, int num_chars)
 {
 int i;
-char *destination;
 
 /* Copy up to num_chars characters or until null character is encountered */
 for (i = 0; source[i] != '\0' && i < num_chars; i++)

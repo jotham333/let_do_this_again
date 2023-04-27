@@ -1,11 +1,11 @@
-#include "main.h"
+#include "shell.h"
 
 
 
 /**
  * _strlen - returns the length of a string
  *
- * @s: the string length to be checked
+ * @str: the string length to be checked
  *
  * Return: length of the string
  */
@@ -21,7 +21,7 @@ int _strlen(char *str)
 		return (0);
 	}
 
-	for (i = 0; str[i] != NULL; i++)
+	for (i = 0; str[i] != '\0'; i++)
 	{
 
 	}
@@ -40,7 +40,8 @@ int _strlen(char *str)
  *
  * @str2: the second string
  *
- * Return: negative(-) if str1 < str2, positive if str1 > str2, zero if str1 == str2
+ * Return: negative(-) if str1 < str2,
+ * positive if str1 > str2, zero if str1 == str2
  *
  */
 
@@ -48,26 +49,17 @@ int _strlen(char *str)
 
 int _strcmp(char *str1, char *str2)
 {
-	while (*str1 && str2)
+	for (; *str1 && *str2; str1++, str2++)
 	{
-		if (*str1 != str2)
+
+		if (*str1 != *str2)
 		{
 			return (*str1 - *str2);
 		}
-
-		str1++;
-		str2++;
 	}
 
-	if (*str1 == *str2)
-	{
-		return (0);
-	}
+	return (*str1 < *str2 ? -1 : (*str1 > *str2 ? 1 : 0));
 
-	else
-	{
-		return (*str1 < *str2 ? -1 : 1);
-	}
 }
 
 
@@ -97,7 +89,7 @@ char *start_with(const char *haystack, const char *needle)
 		haystack++;
 	}
 
-	return (char *) haystack;
+	return ((char *)haystack);
 }
 
 
@@ -120,17 +112,17 @@ char *_strcat(char *dest, char *src)
 
 	 ret = dest;
 
-	 while (*dest != '\0')
-	 {
+	while (*dest != '\0')
+	{
 		dest++;
-	 }
+	}
 
-	 while (*src != '\0')
-	 {
-		*dest++ = *scr++;
-	 }
+	while (*src != '\0')
+	{
+		*dest++ = *src++;
+	}
 
-	 *dest = '\0';
+	*dest = '\0';
 
-	 return (ret);
+	return (ret);
 }

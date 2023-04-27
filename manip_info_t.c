@@ -8,14 +8,10 @@
 */
 void clear_info(info_t *info)
 {
-char *empty_str = NULL;
 
-if (!info)
-return;
-
-info->arg = empty_str; /* set arg field to NULL */
-info->argv = empty_str; /* set argv field to NULL */
-info->path = empty_str; /* set path field to NULL */
+info->arg = NULL; /* set arg field to NULL */
+info->argv = NULL; /* set argv field to NULL */
+info->path = NULL; /* set path field to NULL */
 info->argc = 0; /* set argc field to 0 */
 }
 
@@ -33,6 +29,7 @@ info->argc = 0; /* set argc field to 0 */
 */
 void set_info(info_t *info, char **av)
 {
+int i = 0;
 int arg_count = 0;
 char **arg_arr = NULL;
 
@@ -58,7 +55,6 @@ arg_arr[1] = NULL; /* set second element to NULL */
 }
 }
 
-int i = 0;
 while (arg_arr != NULL && arg_arr[i])
 { /* count the number of elements in array */
 arg_count++;

@@ -31,7 +31,7 @@ char **split_string(char *str, char *delim)
 		return (NULL);
 	s = malloc((1 + numwords) * sizeof(char *));
 	if (s == NULL)
-		return ( NULL);
+		return (NULL);
 	for (i = 0, j = 0; j < numwords; j++)
 	{
 		while (contains(str[i], delim))
@@ -43,9 +43,9 @@ char **split_string(char *str, char *delim)
 		if (s[j] == 0)
 		{
 			for (k = 0; k < j; k++)
-		       		free(s[k]);
-			free(s);;
-		return (NULL);	
+				free(s[k]);
+			free(s);
+			return (NULL);
 		}
 
 		for (m = 0; m < k; m++)
@@ -80,7 +80,8 @@ char **split_string2(char *str, char delim)
 	if (str == NULL || str[0] == 0)
 		return (NULL);
 	for (i = 0; str[i] != '\0'; i++)
-		if ((str[i] != delim && str[i +1] == delim) || (str[i] != delim && str[i + 1] == '\0')
+		if ((str[i] != delim && str[i + 1] == delim)
+				|| (str[i] != delim && str[i + 1] == '\0'))
 			count_words++;
 	if (count_words == 0)
 		return (NULL);
@@ -90,14 +91,13 @@ char **split_string2(char *str, char delim)
 	for (i = 0, j = 0; j < count_words; j++)
 	{
 		while (str[i] == delim)
-		
+
 			i++;
 
 		k = 0;
 		while (str[i + k] != delim && str[i + k] != '\0')
 
 			k++;
-		
 		s[j] = malloc((k + 1) * sizeof(char));
 		if (s[j] == NULL)
 		{

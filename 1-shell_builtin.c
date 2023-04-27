@@ -38,14 +38,14 @@ int unset_alias(info_t *info, char *s)
 	int nreturn;
 
 	equal_sign_pos = _strchr(s, '=');
-	if (*equal_sign_pos == NULL)
+	if (equal_sign_pos == NULL)
 	{
 		return (1);
 	}
 
 	c = *equal_sign_pos;
 	*equal_sign_pos = 0;
-	nreturn = delete_node_at_index(&(info->alias), get_node_index(info->alias
+	nreturn = delete_node_at_index(&(info->alias), get_node_index(info->alias,
 				node_starts_with(info->alias, s, -1)));
 
 	*equal_sign_pos = c;
@@ -71,8 +71,8 @@ int set_alias(info_t *info, char *str)
 {
 	char *equal_sign_pos;
 
-	*equal_sign_pos = _strchr(str, '=');
-	if (*equal_sign_pos == NULL)
+	equal_sign_pos = _strchr(str, '=');
+	if (equal_sign_pos == NULL)
 	{
 		return (1);
 	}
@@ -84,7 +84,7 @@ int set_alias(info_t *info, char *str)
 
 	unset_alias(info, str);
 
-	if (add_node_end(&(inf0->alias), str, 0) == NULL)
+	if (add_node_end(&(info->alias), str, 0) == NULL)
 	{
 		return (1);
 	}

@@ -16,7 +16,7 @@ if (dir == NULL)
 return (NULL);
 
 /* Allocate space for the history file path */
-path = malloc(sizeof(char) * (_strlen(dir) + _strlen(HIST_FILE) + 2));
+path = malloc(sizeof(char) * (_strlen(dir) + _strlen(HISTORY_FILE) + 2));
 if (path == NULL)
 return (NULL);
 
@@ -24,7 +24,7 @@ return (NULL);
 path[0] = '\0';
 _strcpy(path, dir);
 
-if (_strcat(path, "/") == NULL || _strcat(path, HIST_FILE) == NULL)
+if (_strcat(path, "/") == NULL || _strcat(path, HISTORY_FILE) == NULL)
 {
 free(path);
 return (NULL);
@@ -44,7 +44,7 @@ ssize_t fd;
 char *filename;
 list_t *node_ptr = NULL;
 
-filename = get_hustory_file(info);
+filename = get_history_file(info);
 /* Get the history file name and open it */
 if (filename == NULL)
 return (-1);
@@ -117,7 +117,7 @@ build_history_list(info, buf + last, linecount++);
 success = 1;
 info->histcount = linecount;
 
-while (info->histcount-- >= HIST_MAX)
+while (info->histcount-- >= HISTORY_MAX)
 delete_node_at_index(&(info->history), 0);
 renumber_history(info);
 
@@ -137,21 +137,20 @@ return ((success == 1) ? info->histcount : (0));
 int build_history_list(info_t *info, char *buf, int linecount)
 {
 /* Initialize a double pointer to address of history list head */
-list_t **node_ptr = &(info->history);
+	list_t *nd;
 
-/* If history list is not empty, traverse it until we reach end */
-if (*node_ptr)
-{
-while (*node_ptr)
-node_ptr = &((*node_ptr)->next);
-/* Once we reach end, add new node containing command string and linecount */
-*node_ptr = add_node(buf, linecount);
-}
-/* If the history list is empty, simply add the new node to the head */
-else
-{
-*node_ptr = add_node(buf, linecount);
-}
+	nd = NULL;
+
+	if (info->history)
+	{
+		nd = info->history;
+	}
+	add_node_end(&nd, buf, linecount);
+
+	if (info->history == NULL)
+	{
+		info->history = nd;
+	}
 
 /* Always return 0 */
 return (0);

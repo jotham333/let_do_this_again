@@ -1,10 +1,4 @@
 #include "shell.h"
-
-
-
-
-
-
 /**
  * replace_string - string replacement
  *
@@ -14,14 +8,12 @@
  *
  * Return: 1 if replaced, 0 otherwise
  */
-
 int replace_string(char **old, char *new)
 {
 	free(*old);
 	*old = new;
 	return (1);
 }
-
 /**
  * detect_chain - checks if the current buffer is a chain delimeter
  *
@@ -34,9 +26,6 @@ int replace_string(char **old, char *new)
  *
  * Return: 1 if chain delimeter and 0 otherwise
  */
-
-
-
 int detect_chain(info_t *info, char *buff, size_t *ptr)
 {
 	size_t m = *ptr;
@@ -45,35 +34,32 @@ int detect_chain(info_t *info, char *buff, size_t *ptr)
 	{
 		buff[m] = 0;
 		m++;
-		info->cmd_buff_type = CMD_OR;
+		info->cmd_buf_type = CMD_OR;
 	}
 	else if (buff[m] == '&' && buff[m + 1] == '&')
 	{
 		buff[m] = 0;
 		m++;
-		info->cmd_buff_type = CMD_AND;
+		info->cmd_buf_type = CMD_AND;
 	}
 	else if (buff[m] == ';')
 	{
 		buff[m] = 0;
-		info->cmd_buff_type = CMD_CHAIN;
+		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
 		return (0);
 	*ptr = m;
 	return (1);
 }
-
-
-
 /**
  * check_pipeline - checks is we should continue piping based on last status
  *
  * @info: the parameter struct
  *
  * @buff:the character buffer
- * 
- * @ptr: address of the current posintion in buuffer
+ *
+ * @pt: address of the current pos in buff
  *
  * @i: starting position on buff
  *
@@ -81,17 +67,12 @@ int detect_chain(info_t *info, char *buff, size_t *ptr)
  *
  * Retuen: void to the function
  */
-
-
-
-
-void check_pipeline(info_t *info, char *buff, size_t *ptr, size_t i, size_t len)
+void check_pipeline(info_t *info, char *buff, size_t *pt, size_t i, size_t len)
 {
 	size_t m;
 
-	m = *ptr;
-
-	if (info->cmd_buff_type == CMD_AND)
+	m = *pt;
+	if (info->cmd_buf_type == CMD_AND)
 	{
 		if (info->status)
 		{
@@ -99,7 +80,7 @@ void check_pipeline(info_t *info, char *buff, size_t *ptr, size_t i, size_t len)
 			m = len;
 		}
 	}
-	if (info->cmd_buff_type == CMD_OR)
+	if (info->cmd_buf_type == CMD_OR)
 	{
 		if (info->status == 0)
 		{
@@ -107,18 +88,15 @@ void check_pipeline(info_t *info, char *buff, size_t *ptr, size_t i, size_t len)
 			m = len;
 		}
 	}
-	*ptr = m;
+	*pt = m;
 }
-
-
 /**
- * alias-replace - replaces an alias in the tikenized string
+ * alias_replace - replaces an alias in the tokenized string
  *
  * @info:the parametr
  *
  * Return: 1 if replaced and 0 otherwise
  */
-
 int alias_replace(info_t *info)
 {
 	int i;
@@ -143,23 +121,18 @@ int alias_replace(info_t *info)
 	}
 	return (1);
 }
-
-
-
 /**
- * replace_vars - replace vars in the tokenized dtring
+ * replace_vars - replace vars in the tokenized string
  *
  * @info:the parameter struct
  *
  * Return: 1 if replaved and 0 otherwise
  */
-
 int replace_vars(info_t *info)
 {
-	int i;
+	int i = 0;
 	list_t *node;
 
-	i = 0;
 	while (info->argv[i])
 	{
 		if (!(info->argv[i][0] == '$' && info->argv[i][1] != '\0'))
@@ -181,7 +154,6 @@ int replace_vars(info_t *info)
 			i++;
 			continue;
 		}
-
 		node = node_starts_with(info->env, &info->argv[i][1], '=');
 		if (node)
 		{

@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
-* _myenv - prints the current environment variables
+* my_env - prints the current environment variables
 *
 * This function iterates over the linked list of environment variables
 * stored in the shell_info_t structure and prints each variable to stdout.
@@ -14,19 +14,7 @@
 int my_env(info_t *info)
 /* Check if shell_info and env_vars are not NULL */
 {
-if (info == NULL || info->env_vars == NULL)
-{
-return (1);
-}
-
-/* Iterate over each node in the linked list and print the variable */
-list_t *current_node = info->env_vars;
-while (current_node != NULL)
-{
-printf("%s\n", current_node->str);
-current_node = current_node->next;
-}
-
+print_list_str(info->env);
 return (0);
 }
 
@@ -46,7 +34,7 @@ return (0);
 char *_getenv(info_t *info, const char *name)
 /* Declare a node pointer and a char pointer */
 {
-list_t *node = info->_getenv;
+list_t *node = info->env;
 char *p;
 
 if (node == NULL)
@@ -54,7 +42,7 @@ return (NULL);
 
 /* Iterate over each node in the linked list and search for the variable */
 do {
-p = start_with(node->str, var_name);
+p = start_with(node->str, name);
 if (p && *p)
 return (p);
 node = node->next;
@@ -84,7 +72,7 @@ int my_setenv(info_t *info)
 {
 if (info == NULL || info->argc != 3)
 {
-_eput("Invalid number of argument\n");
+_eputs("Invalid number of argument\n");
 return (1);
 }
 
@@ -114,13 +102,14 @@ return (0);
 int my_unsetenv(info_t *info)
 /* Check if shell_info and argc are not NULL, and argc is greater than 1 */
 {
+int i;
 if (info == NULL || info->argc == 1)
 {
 return (1);
 }
 
 /* Iterate through the argv array and remove each specified variable */
-for (int i = 1; i <= info->argc; i++)
+for (i = 1; i <= info->argc; i++)
 {
 _unsetenv(info, info->argv[i]);
 }
@@ -138,13 +127,14 @@ return (0);
 */
 int populate_env_list(info_t *info)
 {
+size_t i;
+list_t *current_node;
 if (info == NULL)
 {
 return (1);
 }
 
-list_t *current_node = NULL;
-size_t i;
+current_node = NULL;
 
 /* Iterate through the environment variables in environ and add them to the */
 /* end of the linked list using the add_node_end function. */
@@ -152,9 +142,10 @@ for (i = 0; environ[i] != NULL; i++)
 {
 add_node_end(&current_node, environ[i], 0);
 }
+
 /* Update the env_vars pointer in the shell_info struct to point to the */
    /* head of the linked list. */
-info->env_vars = current_node;
+info->env = current_node;
 
 /* Always return 0 to indicate success. */
 return (0);

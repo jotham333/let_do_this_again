@@ -9,12 +9,12 @@
  *
  * @path: the file path
  *
- *  Rerturn: 1 if true and 0 otherwise
+ *  Return: 1 if true and 0 otherwise
  */
 
 
 
-int _iscmd(info_t *imfo, char *path)
+int _iscmd(info_t *info, char *path)
 {
 	struct stat filestat;
 
@@ -45,6 +45,8 @@ int _iscmd(info_t *imfo, char *path)
  * @start: the starting point(index)
  *
  * @stop: the stopping point(index)
+ *
+ * Return: result
  */
 
 

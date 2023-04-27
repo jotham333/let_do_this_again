@@ -21,7 +21,7 @@ char *_memset(char *str, char b, unsigned int n)
 
 	i = 0;
 
-	while(i < n)
+	while (i < n)
 	{
 		str[i] = b;
 		i++;
@@ -42,9 +42,8 @@ char *_memset(char *str, char b, unsigned int n)
 void free_str(char **s)
 {
 	char **m;
-	int i;
 
-	i = 0;
+
 	m = s;
 
 	if (s == NULL)
@@ -52,12 +51,11 @@ void free_str(char **s)
 		return;
 	}
 
-	while((*s)[i] != NULL)
+	for (; *s != NULL; s++)
 	{
-		free((*s)[i]);
-		i++;
+		free(*s);
 	}
-	free (m);
+	free(m);
 
 }
 
@@ -65,7 +63,7 @@ void free_str(char **s)
 
 
 /**
- * _realoc - reallocates a blcok of memory
+ * _realloc - reallocates a blcok of memory
  *
  * @ptr: pointer to previuse malloc block
  *

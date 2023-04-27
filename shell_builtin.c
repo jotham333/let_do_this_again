@@ -43,54 +43,56 @@ int exit_shell(info_t *info)
 
 
 /**
- * change_direct - the function changes between directories
+ * _cd - the function changes between directories
  *
- * @path: the path specified by the user to chnage to
+ * @info: the path specified by the user to chnage to
  *
  * Return: 0 always
  */
 
 
 
-int change_direct(char *path)
+int _cd(info_t *info)
 {
-	char *home_dir, *prev_dir, cwd[1024];
+	char *home_dir, *prev_dir;
+	char buff[1024];
 	int chdir_ret;
-	char *err_msg, *err_msg_2;
 
-	err_msg = "my_cd: Home environment variable not set\n";
-	err_msg_2 = "my_cd: OLDPWD not set\n";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		perror("Failed to get cwd");
-		return (1);
-	if (path == NULL)
+	home_dir = getcwd(buff, 1024);
+	if (!home_dir)
+		_puts("TODO: >>getcwd failure<<\n");
+	if (!info->argv[1])
 	{
-		home_dir = _getenv("HOME");
-		if (home_dir == NULL)
-		{
-			write(STDERR_FILENO, err_msg, sizeof(err_msg));
-			return (1);
-		}
-		chdir_ret = chdir(home_dir);
+		prev_dir = _getenv(info, "HOME=");
+		if (!prev_dir)
+			chdir_ret = chdir((prev_dir = _getenv(info, "PWD=")) ? prev_dir : "/");
+		else
+			chdir_ret = chdir(prev_dir);
 	}
-	else if (_strcmp(path, "-") == 0)
+	else if (_strcmp(info->argv[1], "-") == 0)
 	{
-		prev_dir = getenv("OLDPWD");
-		if (prev_dir == NULL)
+		if (!_getenv(info, "OLDPWD="))
 		{
-			write(STDERR_FILENO, err_msg_2, sizeof(err_msg_2));
+			_puts(home_dir), _putchar('\n');
 			return (1);
 		}
-		chdir_ret = chdir(prev_dir);
+		_puts(_getenv(info, "OLDPWD="));
+		_putchar('\n');
+		chdir_ret = chdir((prev_dir = _getenv(info, "OLDPWD=")) ? prev_dir : "/");
 	}
 	else
-		chdir_ret = chdir(path);
+		chdir_ret = chdir(info->argv[1]);
 	if (chdir_ret == -1)
-		perror("my_cd");
-		return (1);
-	if (_setenv("PWD", getcwd(cwd, sizeof(cwd)), 1) == -1)
-		perror("my_cd");
-		return (1);
+	{
+		print_error(info, "can't change directory to ");
+		_eputs(info->argv[1]);
+		_eputchar('\n');
+	}
+	else
+	{
+		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
+		_setenv(info, "PWD", getcwd(buff, 1024));
+	}
 	return (0);
 }
 
@@ -114,26 +116,8 @@ int display_help(info_t *info)
 
 	if (0)
 	{
-		_puts(*arg_array);
+		_puts(*arg_arr);
 	}
 
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
